@@ -1,9 +1,9 @@
 import React from 'react'
-import {View, StyleSheet, ImageBackground, Text} from 'react-native'
+import {View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native'
 
 import {AppTitle} from '../components/AppTitle'
 
-export const Post = ({post}) => {
+export const Post = ({post, onOpen}) => {
     const createTimeText = (date) => {
         //  returning date 
         return `${new Date(date).toDateString()} ${new Date(date).getHours() < 10 
@@ -14,13 +14,15 @@ export const Post = ({post}) => {
             :   new Date(date).getMinutes()
         }`;
     }
-    return <View style={styles.post}>
-        <ImageBackground style={styles.image} source={{uri: post.img}}>
-            <View style={styles.textWrap}>
-                <AppTitle>{createTimeText(post.date)}</AppTitle>
-            </View>
-        </ImageBackground>
-    </View>
+    return <TouchableOpacity activeOpacity={0.3} onPress={() => onOpen(post)}>
+        <View style={styles.post}>
+            <ImageBackground style={styles.image} source={{uri: post.img}}>
+                <View style={styles.textWrap}>
+                    <AppTitle>{createTimeText(post.date)}</AppTitle>
+                </View>
+            </ImageBackground>
+        </View>
+    </TouchableOpacity>
 }
 
 const styles = StyleSheet.create({
