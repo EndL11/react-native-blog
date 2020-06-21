@@ -4,13 +4,15 @@ import {Platform} from 'react-native'
 
 import { MainScreen } from '../screens/MainScreen'
 import { PostScreen } from '../screens/PostScreen'
+import { CreateScreen } from '../screens/CreateScreen'
 import { THEME } from '../theme'
 
 const PostNavigation = createStackNavigator({
     Main: MainScreen,
     Post: {
         screen: PostScreen
-    }
+    },
+    Create: CreateScreen
 }, {
     initialRouteName: 'Main',
     defaultNavigationOptions: {
