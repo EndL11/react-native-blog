@@ -1,16 +1,28 @@
 import React from "react"
-import {View, Text, StyleSheet} from 'react-native'
+import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 
-export const BookedScreen = ({}) => {
-    return <View style={styles.center}>
-        <Text>BookedScreen</Text>
-    </View>
+import {DATA} from '../data'
+import { PostsList } from "../components/PostsList"
+import { AppHeaderIcon } from '../components/AppHeaderIcon'
+
+export const BookedScreen = ({navigation}) => {
+
+    const openPost = post => {
+        navigation.navigate("Post", {postId: post.id, title: post.title, booked: post.booked})
+    }
+    const data = DATA.filter(post => post.booked)
+    
+    return <PostsList data={data} openPost={openPost}/>
+
 }
 
-const styles = StyleSheet.create({
-    center:{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+BookedScreen.navigationOptions = ({navigation}) => {
+    return {
+        headerTitle: 'Favorites',
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+                <Item title="Menu" iconName="md-menu" onPress={() => {}}/>
+            </HeaderButtons>
+        )
     }
-})
+}
