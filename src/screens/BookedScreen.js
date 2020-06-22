@@ -11,7 +11,7 @@ export const BookedScreen = ({navigation}) => {
         navigation.navigate("Post", {postId: post.id, title: post.title, booked: post.booked})
     }
     const data = DATA.filter(post => post.booked)
-    
+
     return <PostsList data={data} openPost={openPost}/>
 
 }
@@ -21,7 +21,7 @@ BookedScreen.navigationOptions = ({navigation}) => {
         headerTitle: 'Favorites',
         headerLeft: (
             <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-                <Item title="Menu" iconName="md-menu" onPress={() => {}}/>
+                <Item title="Menu" iconName="md-menu" onPress={() => navigation.toggleDrawer()}/>
             </HeaderButtons>
         )
     }

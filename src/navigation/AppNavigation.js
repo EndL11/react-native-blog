@@ -3,6 +3,7 @@ import {createAppContainer} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs'
+import {createDrawerNavigator} from 'react-navigation-drawer'
 import {Platform} from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
 
@@ -10,6 +11,7 @@ import { MainScreen } from '../screens/MainScreen'
 import { PostScreen } from '../screens/PostScreen'
 import { CreateScreen } from '../screens/CreateScreen'
 import { BookedScreen } from '../screens/BookedScreen'
+import { AboutScreen } from '../screens/AboutScreen'
 import { THEME } from '../theme'
 
 const navigationConfig = {
@@ -25,13 +27,20 @@ const PostNavigation = createStackNavigator({
     Main: MainScreen,
     Post: {
         screen: PostScreen
-    },
-    Create: CreateScreen
+    }
 }, navigationConfig)
 
 const BookedNavigation = createStackNavigator({
     Booked: BookedScreen,
     Post:  PostScreen,
+}, navigationConfig)
+
+const AboutNavigation = createStackNavigator({
+    About: AboutScreen
+}, navigationConfig)
+
+const CreateNavigation = createStackNavigator({
+    Create: CreateScreen
 }, navigationConfig)
 
 const bottomNavigationConfig = {
@@ -51,7 +60,7 @@ const bottomNavigationConfig = {
     },
 }
 
-const MainNavigation = Platform.OS === 'android' 
+const BottomNavigation = Platform.OS === 'android' 
     ?   createMaterialBottomTabNavigator(bottomNavigationConfig, {
             activeTintColor: '#fff',
             shifting: true,            
@@ -63,6 +72,39 @@ const MainNavigation = Platform.OS === 'android'
         tabBarOptions: {
             activeTintColor: THEME.MAIN_COLOR
         }
+})
+
+const MainNavigation = createDrawerNavigator({
+    PostTabs: {
+        screen: BottomNavigation,
+        navigationOptions: {
+            drawerIcon: (<Ionicons name='ios-home' size={28} color={THEME.EDIT_COLOR}/>),
+            drawerLabel: 'All posts'
+        }
+    },
+    About: {
+        screen: AboutNavigation,
+        navigationOptions: {
+            drawerIcon: (<Ionicons name='ios-apps' size={28} color={THEME.EDIT_COLOR}/>),
+            drawerLabel: 'About app'
+        }
+    },
+    Create: {
+        screen: CreateNavigation,
+        navigationOptions: {
+            drawerIcon: (<Ionicons name='ios-create' size={28} color={THEME.EDIT_COLOR}/>),
+            drawerLabel: 'Create new posts'
+        }
+    }
+}, {
+    contentOptions: {
+        activeTintColor: THEME.EDIT_COLOR,
+        labelStyle: {
+            color: THEME.MAIN_COLOR,
+            fontFamily: 'balsamiqSans_Bold',
+            fontSize: 20,
+        }
+    }
 })
 
 export const AppNavigation = createAppContainer(MainNavigation)

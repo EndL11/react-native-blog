@@ -25,7 +25,7 @@ MainScreen.navigationOptions = ({navigation}) => {
         ),
         headerLeft: (
             <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-                <Item title="Menu" iconName="md-menu" onPress={() => {}}/>
+                <Item title="Menu" iconName="md-menu" onPress={() => navigation.toggleDrawer()}/>
             </HeaderButtons>
         )
     }
