@@ -1,15 +1,24 @@
-import React from "react"
+import React, {useEffect} from "react"
+import {useDispatch, useSelector} from 'react-redux'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 
-import {DATA} from '../data'
 import { PostsList } from "../components/PostsList"
 import { AppHeaderIcon } from '../components/AppHeaderIcon'
+import { loadPosts } from "../store/actions/post"
 
 export const MainScreen = ({navigation}) => {
     const openPost = post => {
         navigation.navigate("Post", {postId: post.id, title: post.title, booked: post.booked})
     }
-    return <PostsList data={DATA} openPost={openPost}/>
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(loadPosts())
+    }, [dispatch])
+
+    const allPosts = useSelector(state => state.post.allPosts)
+    return <PostsList data={allPosts} openPost={openPost}/>
 }
 
 MainScreen.navigationOptions = ({navigation}) => {
