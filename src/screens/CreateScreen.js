@@ -24,8 +24,12 @@ export const CreateScreen = ({ navigation }) => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
 
+  const checkPostValues = () => {
+    return !text?.trim() || !title?.trim() || !img?.trim()
+  }
+
   const createPostHandler = () => {
-    if(!text.trim() || !title.trim() || !img.trim()){
+    if(checkPostValues()){
       Alert.alert('Error', 'You must fill all fields!')
       return
     }
@@ -79,7 +83,7 @@ export const CreateScreen = ({ navigation }) => {
               color={THEME.EDIT_COLOR}
               onClick={createPostHandler}
               style={styles.button}
-              disabled={!text.trim() || !title.trim() || !img.trim()}
+              disabled={checkPostValues()}
             />
           </View>
         </View>

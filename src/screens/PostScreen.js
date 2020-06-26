@@ -10,11 +10,13 @@ import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { toggleBooked, deletePost } from "../store/actions/post";
 
 export const PostScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const postId = navigation.getParam("postId");
+
   const post = useSelector((state) =>
     state.post.allPosts.find((post) => post.id === postId)
   );
-  const dispatch = useDispatch();
+  
   const booked = useSelector((state) =>
     state.post.bookedPosts.some((post) => post.id === postId)
   );
@@ -101,7 +103,7 @@ PostScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   image: {
     width: "100%",
-    height: 250,
+    height: 300,
   },
   date: {
     alignItems: "center",

@@ -18,7 +18,7 @@ export const postReducer = (state = initialState, action) => {
         bookedPosts: getBookedPosts(action.payload),
       };
     case TOGGLE_BOOKED:
-      const allPosts = state.post.allPosts.map((post) => {
+      const allPosts = state.allPosts.map((post) => {
         if (post.id === action.payload) {
           post.booked = !post.booked;
         }
@@ -32,8 +32,8 @@ export const postReducer = (state = initialState, action) => {
     case DELETE_POST:
       return {
         ...state,
-        allPosts: state.post.allPosts.filter((p) => p.id !== action.payload),
-        bookedPosts: state.post.bookedPosts.filter(
+        allPosts: state.allPosts.filter((p) => p.id !== action.payload),
+        bookedPosts: state.bookedPosts.filter(
           (p) => p.id !== action.payload
         ),
       };
