@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
     image:{
         width:'100%',
-        height: 200
+        height: 250
     },
     textWrap:{
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

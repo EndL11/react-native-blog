@@ -3,11 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
   TextInput,
+  Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -16,14 +16,19 @@ import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { AppButton } from "../components/AppButton";
 import { THEME } from "../theme";
 import { createPost } from "../store/actions/post";
+import { PhotoPicker } from "../components/PhotoPicker";
 
 export const CreateScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [img, setImg] = useState(null);
 
-  const img = "https://static.insider.com/image/5db2169f045a3125cb50e8d7.jpg";
   const createPostHandler = () => {
+    if(!text.trim() || !title.trim() || !img.trim()){
+      Alert.alert('Error', 'You must fill all fields!')
+      return
+    }
     const post = {
       text,
       title,
@@ -36,6 +41,11 @@ export const CreateScreen = ({ navigation }) => {
     setTitle("");
     navigation.navigate("Main");
   };
+
+  const getPhoto = (uri) => {
+    setImg(uri);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -56,18 +66,7 @@ export const CreateScreen = ({ navigation }) => {
             onChangeText={setText}
             multiline
           />
-          <Image
-            style={{ width: "100%", height: 250, marginBottom: 10 }}
-            source={{ uri: img }}
-          />
-          <View style={{alignItems: 'center'}}>
-            <AppButton
-              title="Add photo"
-              color={THEME.MAIN_COLOR}
-              style={{ width: "55%" }}
-              onClick={() => {}}
-            />
-          </View>
+          <PhotoPicker onPick={getPhoto} />
           <View style={styles.buttons}>
             <AppButton
               title="Cancel"
@@ -80,6 +79,7 @@ export const CreateScreen = ({ navigation }) => {
               color={THEME.EDIT_COLOR}
               onClick={createPostHandler}
               style={styles.button}
+              disabled={!text.trim() || !title.trim() || !img.trim()}
             />
           </View>
         </View>
