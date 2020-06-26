@@ -10,41 +10,42 @@ import {
   Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import { AppHeaderIcon } from "../components/AppHeaderIcon";
+import { AppDateTitle } from "../components/AppDateTitle";
 import { AppButton } from "../components/AppButton";
 import { THEME } from "../theme";
-import { createPost } from "../store/actions/post";
+import { updatePost } from "../store/actions/post";
 import { PhotoPicker } from "../components/PhotoPicker";
 
-export const CreateScreen = ({ navigation }) => {
+export const EditScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [img, setImg] = useState(null);
+  const post = navigation.getParam("post");
+  const [title, setTitle] = useState(post.title);
+  const [text, setText] = useState(post.text);
+  const [img, setImg] = useState(post.img);
 
   const checkPostValues = () => {
-    return !text?.trim() || !title?.trim() || !img?.trim()
-  }
+    return !text?.trim() || !title?.trim() || !img?.trim();
+  };
 
-  const createPostHandler = () => {
-    if(checkPostValues()){
-      Alert.alert('Error', 'You must fill all fields!')
-      return
+  const updatePostHandler = () => {
+    if (checkPostValues()) {
+      Alert.alert("Error", "You must fill all fields!");
+      return;
     }
-    const post = {
+    const editedPost = {
+      id: post.id,
       text,
       title,
       img,
-      date: new Date().toJSON(),
-      booked: false,
+      date: post.date,
+      booked: post.booked,
     };
-    dispatch(createPost(post));
+    dispatch(updatePost(editedPost));
     setText("");
     setTitle("");
-    setImg("")
-    navigation.navigate("Main");
+    setImg("");
+    navigation.navigate("Post", {postId: post.id, booked: post.booked, title: post.title});
   };
 
   const getPhoto = (uri) => {
@@ -53,9 +54,10 @@ export const CreateScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <AppDateTitle style={styles.date} date={post.date} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.wrapper}>
-          <Text style={styles.title}>Create new post</Text>
+          <Text style={styles.title}>Editing post</Text>
           <TextInput
             style={styles.textInput}
             value={title}
@@ -71,18 +73,18 @@ export const CreateScreen = ({ navigation }) => {
             onChangeText={setText}
             multiline
           />
-          <PhotoPicker onPick={getPhoto} />
+          <PhotoPicker onPick={getPhoto} oldImage={post.img} />
           <View style={styles.buttons}>
             <AppButton
               title="Cancel"
               color="#0000ff"
-              onClick={() => navigation.navigate("Main")}
+              onClick={() => navigation.navigate("Post", {postId: post.id, booked: post.booked, title: post.title})}
               style={styles.button}
             />
             <AppButton
-              title="Add post"
+              title="Update post"
               color={THEME.EDIT_COLOR}
-              onClick={createPostHandler}
+              onClick={updatePostHandler}
               style={styles.button}
               disabled={checkPostValues()}
             />
@@ -93,18 +95,10 @@ export const CreateScreen = ({ navigation }) => {
   );
 };
 
-CreateScreen.navigationOptions = ({ navigation }) => {
+EditScreen.navigationOptions = ({ navigation }) => {
+  const post = navigation.getParam("post");
   return {
-    headerTitle: "Create new post",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item
-          title="Menu"
-          iconName="md-menu"
-          onPress={() => navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    ),
+    headerTitle: post?.title ?? 'Editing post',
   };
 };
 
@@ -135,5 +129,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "35%",
+  },
+  date: {
+    alignItems: "center",
+    backgroundColor: "rgba(11, 51, 205, 0.7)",
+    paddingVertical: 10,
   },
 });

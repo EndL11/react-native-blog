@@ -16,7 +16,7 @@ export const PostScreen = ({ navigation }) => {
   const post = useSelector((state) =>
     state.post.allPosts.find((post) => post.id === postId)
   );
-  
+
   const booked = useSelector((state) =>
     state.post.bookedPosts.some((post) => post.id === postId)
   );
@@ -26,8 +26,8 @@ export const PostScreen = ({ navigation }) => {
   }, [booked]);
 
   const toggleHandler = useCallback(() => {
-    dispatch(toggleBooked(postId));
-  }, [dispatch, postId]);
+    dispatch(toggleBooked(post));
+  }, [dispatch, post]);
 
   useEffect(() => {
     navigation.setParams({ toggleHandler });
@@ -55,6 +55,10 @@ export const PostScreen = ({ navigation }) => {
     );
   };
 
+  const editPost = () => {
+    navigation.navigate("Edit", { post });
+  };
+
   if (!post) {
     return null;
   }
@@ -78,7 +82,7 @@ export const PostScreen = ({ navigation }) => {
           style={styles.button}
           title="Edit"
           color={THEME.EDIT_COLOR}
-          onClick={deletePost}
+          onClick={editPost}
         />
       </View>
     </ScrollView>

@@ -12,6 +12,7 @@ import { PostScreen } from "../screens/PostScreen";
 import { CreateScreen } from "../screens/CreateScreen";
 import { BookedScreen } from "../screens/BookedScreen";
 import { AboutScreen } from "../screens/AboutScreen";
+import { EditScreen } from "../screens/EditScreen";
 import { THEME } from "../theme";
 
 const navigationConfig = {
@@ -29,6 +30,7 @@ const PostNavigation = createStackNavigator(
     Post: {
       screen: PostScreen,
     },
+    Edit: EditScreen,
   },
   navigationConfig
 );

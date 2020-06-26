@@ -1,8 +1,15 @@
-import { LOAD_POSTS, TOGGLE_BOOKED, DELETE_POST, CREATE_POST } from "../types";
+import {
+  LOAD_POSTS,
+  TOGGLE_BOOKED,
+  DELETE_POST,
+  CREATE_POST,
+  UPDATE_POST,
+} from "../types";
 
 const initialState = {
   allPosts: [],
   bookedPosts: [],
+  loading: true,
 };
 
 const getBookedPosts = (allPosts) => {
@@ -16,6 +23,7 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         allPosts: action.payload,
         bookedPosts: getBookedPosts(action.payload),
+        loading: false,
       };
     case TOGGLE_BOOKED:
       const allPosts = state.allPosts.map((post) => {
@@ -33,14 +41,23 @@ export const postReducer = (state = initialState, action) => {
       return {
         ...state,
         allPosts: state.allPosts.filter((p) => p.id !== action.payload),
-        bookedPosts: state.bookedPosts.filter(
-          (p) => p.id !== action.payload
-        ),
+        bookedPosts: state.bookedPosts.filter((p) => p.id !== action.payload),
       };
     case CREATE_POST:
       return {
         ...state,
         allPosts: [{ ...action.payload }, ...state.allPosts],
+      };
+    case UPDATE_POST:
+      const posts = state.allPosts;
+      const oldPostIndex = posts.findIndex(
+        (p) => p.id === action.payload.id
+      );
+      posts[oldPostIndex] = action.payload;
+      return {
+        ...state,
+        allPosts: posts,
+        bookedPosts: getBookedPosts(posts),
       };
     default:
       return state;
