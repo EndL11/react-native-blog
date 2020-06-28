@@ -23,8 +23,30 @@ export const MainScreen = ({ navigation }) => {
     dispatch(loadPosts());
   }, [dispatch]);
 
+  const createPost = () => {
+    navigation.navigate("Create");
+  };
+
   const allPosts = useSelector((state) => state.post.allPosts);
   const loading = useSelector((state) => state.post.loading);
+
+  navigation.setOptions({
+    headerTitle: "Personal Blog",
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item title="Create post" iconName="md-create" onPress={createPost} />
+      </HeaderButtons>
+    ),
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item
+          title="Menu"
+          iconName="md-menu"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  });
 
   if (loading) {
     return (
@@ -35,29 +57,6 @@ export const MainScreen = ({ navigation }) => {
   }
 
   return <PostsList data={allPosts} openPost={openPost} />;
-};
-
-MainScreen.navigationOptions = ({ navigation }) => {
-  const createPost = () => {
-    navigation.navigate("Create");
-  };
-  return {
-    headerTitle: "Personal Blog",
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title="Create post" iconName="md-create" onPress={createPost} />
-      </HeaderButtons>
-    ),
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item
-          title="Menu"
-          iconName="md-menu"
-          onPress={() => navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({

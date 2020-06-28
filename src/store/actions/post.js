@@ -8,7 +8,7 @@ export const loadPosts = () => {
 
     dispatch({
       type: LOAD_POSTS,
-      payload: posts,
+      payload: posts.reverse(),
     });
   };
 };

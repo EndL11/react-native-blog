@@ -18,9 +18,9 @@ import { THEME } from "../theme";
 import { updatePost } from "../store/actions/post";
 import { PhotoPicker } from "../components/PhotoPicker";
 
-export const EditScreen = ({ navigation }) => {
+export const EditScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const post = navigation.getParam("post");
+  const post = route.params.post;
   const [title, setTitle] = useState(post.title);
   const [text, setText] = useState(post.text);
   const [img, setImg] = useState(post.img);
@@ -28,6 +28,11 @@ export const EditScreen = ({ navigation }) => {
   const checkPostValues = () => {
     return !text?.trim() || !title?.trim() || !img?.trim();
   };
+
+  //  try change to 'goBack()'
+  const backToPost = () => {
+    navigation.navigate("Post", {postId: post.id, booked: post.booked, title: post.title});
+  }
 
   const updatePostHandler = () => {
     if (checkPostValues()) {
@@ -46,7 +51,7 @@ export const EditScreen = ({ navigation }) => {
     setText("");
     setTitle("");
     setImg("");
-    navigation.navigate("Post", {postId: post.id, booked: post.booked, title: post.title});
+    backToPost()
   };
 
   const getPhoto = (uri) => {
@@ -87,7 +92,7 @@ export const EditScreen = ({ navigation }) => {
             <AppButton
               title="Cancel"
               color="#0000ff"
-              onClick={() => navigation.navigate("Post", {postId: post.id, booked: post.booked, title: post.title})}
+              onClick={backToPost}
               style={styles.button}
             />
             <AppButton
@@ -104,8 +109,8 @@ export const EditScreen = ({ navigation }) => {
   );
 };
 
-EditScreen.navigationOptions = ({ navigation }) => {
-  const post = navigation.getParam("post");
+EditScreen.navigationOptions = ({ route }) => {
+  const post = route.params.post;
   return {
     headerTitle: post?.title ?? 'Editing post',
   };

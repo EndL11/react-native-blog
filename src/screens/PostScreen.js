@@ -9,9 +9,9 @@ import { AppButton } from "../components/AppButton";
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { toggleBooked, deletePost } from "../store/actions/post";
 
-export const PostScreen = ({ navigation }) => {
+export const PostScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const postId = navigation.getParam("postId");
+  const postId = route.params.postId;
 
   const post = useSelector((state) =>
     state.post.allPosts.find((post) => post.id === postId)
@@ -21,17 +21,9 @@ export const PostScreen = ({ navigation }) => {
     state.post.bookedPosts.some((post) => post.id === postId)
   );
 
-  useEffect(() => {
-    navigation.setParams({ booked });
-  }, [booked]);
-
   const toggleHandler = useCallback(() => {
     dispatch(toggleBooked(post));
   }, [dispatch, post]);
-
-  useEffect(() => {
-    navigation.setParams({ toggleHandler });
-  }, [toggleHandler]);
 
   const removePost = () => {
     Alert.alert(
@@ -58,6 +50,16 @@ export const PostScreen = ({ navigation }) => {
   const editPost = () => {
     navigation.navigate("Edit", { post });
   };
+
+  const iconName = booked ? "ios-star" : "ios-star-outline";
+  navigation.setOptions({
+    headerTitle: post.title,
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item title="Book" iconName={iconName} onPress={toggleHandler} />
+      </HeaderButtons>
+    ),
+  });
 
   if (!post) {
     return null;
@@ -87,21 +89,6 @@ export const PostScreen = ({ navigation }) => {
       </View>
     </ScrollView>
   );
-};
-
-PostScreen.navigationOptions = ({ navigation }) => {
-  const title = navigation.getParam("title");
-  const booked = navigation.getParam("booked");
-  const toggleHandler = navigation.getParam("toggleHandler");
-  const iconName = booked ? "ios-star" : "ios-star-outline";
-  return {
-    headerTitle: title,
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item title="Book" iconName={iconName} onPress={toggleHandler} />
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({

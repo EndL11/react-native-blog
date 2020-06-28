@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Image, View, Alert } from "react-native";
+import * as React from "react";
+import { View, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { AppButton } from "./AppButton";

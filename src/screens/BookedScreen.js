@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
@@ -13,16 +13,9 @@ export const BookedScreen = ({ navigation }) => {
       booked: post.booked,
     });
   };
-
-  const bookedPosts = useSelector((state) => state.post.bookedPosts);
-
-  return <PostsList data={bookedPosts} openPost={openPost} />;
-};
-
-BookedScreen.navigationOptions = ({ navigation }) => {
-  return {
+  navigation.setOptions({
     headerTitle: "Favorites",
-    headerLeft: (
+    headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
         <Item
           title="Menu"
@@ -31,5 +24,9 @@ BookedScreen.navigationOptions = ({ navigation }) => {
         />
       </HeaderButtons>
     ),
-  };
+  });
+
+  const bookedPosts = useSelector((state) => state.post.bookedPosts);
+
+  return <PostsList data={bookedPosts} openPost={openPost} />;
 };

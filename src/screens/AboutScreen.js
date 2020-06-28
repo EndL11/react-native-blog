@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
@@ -7,6 +7,18 @@ import { AppButton } from "../components/AppButton";
 import { THEME } from "../theme";
 
 export const AboutScreen = ({ navigation }) => {
+  navigation.setOptions({
+    headerTitle: "About app",
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item
+          title="Menu"
+          iconName="md-menu"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  });
   return (
     <View style={styles.center}>
       <Text style={styles.mainText}>
@@ -24,21 +36,6 @@ export const AboutScreen = ({ navigation }) => {
       />
     </View>
   );
-};
-
-AboutScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: "About app",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item
-          title="Menu"
-          iconName="md-menu"
-          onPress={() => navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({

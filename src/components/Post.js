@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native'
 
 import {AppDateTitle} from '../components/AppDateTitle'

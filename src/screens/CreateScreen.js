@@ -8,7 +8,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
-  Image
+  Image,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -61,6 +61,19 @@ export const CreateScreen = ({ navigation }) => {
     setImg(uri);
   };
 
+  navigation.setOptions({
+    headerTitle: "Create new post",
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item
+          title="Menu"
+          iconName="md-menu"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  });
+
   return (
     <ScrollView style={styles.container}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -109,21 +122,6 @@ export const CreateScreen = ({ navigation }) => {
       </TouchableWithoutFeedback>
     </ScrollView>
   );
-};
-
-CreateScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerTitle: "Create new post",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-        <Item
-          title="Menu"
-          iconName="md-menu"
-          onPress={() => navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({
