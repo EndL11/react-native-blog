@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Image
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -64,6 +65,7 @@ export const EditScreen = ({ navigation }) => {
             placeholder="Enter post title..."
             placeholderTextColor={THEME.MAIN_COLOR}
             onChangeText={setTitle}
+            autoCorrect={false}
           />
           <TextInput
             style={styles.textInput}
@@ -71,9 +73,16 @@ export const EditScreen = ({ navigation }) => {
             placeholder="Enter post text..."
             placeholderTextColor={THEME.MAIN_COLOR}
             onChangeText={setText}
+            autoCorrect={false}
             multiline
           />
-          <PhotoPicker onPick={getPhoto} oldImage={post.img} />
+          {img ? (
+            <Image
+              style={{ width: "100%", height: 400 }}
+              source={{ uri: img }}
+            />
+          ) : null}
+          <PhotoPicker onPick={getPhoto} />
           <View style={styles.buttons}>
             <AppButton
               title="Cancel"
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   title: {
-    fontFamily: "MarckScript",
+    fontFamily: "balsamiqSans_Italic",
     fontSize: 30,
     textAlign: "center",
   },

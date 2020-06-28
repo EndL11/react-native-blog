@@ -16,8 +16,7 @@ async function askForPermissions() {
   return true;
 }
 
-export const PhotoPicker = ({ onPick, oldImage=null }) => {
-  const [image, setImage] = useState(oldImage);
+export const PhotoPicker = ({ onPick }) => {
 
   const createPhoto = async () => {
     const hasPermission = await askForPermissions();
@@ -31,7 +30,6 @@ export const PhotoPicker = ({ onPick, oldImage=null }) => {
       allowsEditing: false,
       aspect: [16, 9],
     });
-    setImage(img.uri);
     onPick(img.uri);
   };
 
@@ -48,16 +46,11 @@ export const PhotoPicker = ({ onPick, oldImage=null }) => {
       allowsEditing: false,
       aspect: [16, 9],
     });
-    
-    setImage(img.uri);
     onPick(img.uri);
-  }
+  };
 
   return (
     <View>
-      {image && (
-        <Image style={{ width: "100%", height: 400 }} source={{ uri: image }} />
-      )}
       <AppButton
         style={{ marginTop: 10 }}
         title="Create photo"

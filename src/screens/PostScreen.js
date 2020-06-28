@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: "MarckScript",
+    fontFamily: "balsamiqSans_Italic",
     textAlign: "justify",
   },
   title: {

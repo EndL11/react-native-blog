@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Image
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -25,13 +26,24 @@ export const CreateScreen = ({ navigation }) => {
   const [img, setImg] = useState(null);
 
   const checkPostValues = () => {
-    return !text?.trim() || !title?.trim() || !img?.trim()
-  }
+    return !text?.trim() || !title?.trim() || !img?.trim();
+  };
+
+  const resetState = () => {
+    setText("");
+    setTitle("");
+    setImg(null);
+  };
+
+  const cancelHandler = () => {
+    resetState();
+    navigation.navigate("Main");
+  };
 
   const createPostHandler = () => {
-    if(checkPostValues()){
-      Alert.alert('Error', 'You must fill all fields!')
-      return
+    if (checkPostValues()) {
+      Alert.alert("Error", "You must fill all fields!");
+      return;
     }
     const post = {
       text,
@@ -41,9 +53,7 @@ export const CreateScreen = ({ navigation }) => {
       booked: false,
     };
     dispatch(createPost(post));
-    setText("");
-    setTitle("");
-    setImg("")
+    resetState();
     navigation.navigate("Main");
   };
 
@@ -62,6 +72,7 @@ export const CreateScreen = ({ navigation }) => {
             placeholder="Enter post title..."
             placeholderTextColor={THEME.MAIN_COLOR}
             onChangeText={setTitle}
+            autoCorrect={false}
           />
           <TextInput
             style={styles.textInput}
@@ -69,14 +80,21 @@ export const CreateScreen = ({ navigation }) => {
             placeholder="Enter post text..."
             placeholderTextColor={THEME.MAIN_COLOR}
             onChangeText={setText}
+            autoCorrect={false}
             multiline
           />
+          {img ? (
+            <Image
+              style={{ width: "100%", height: 400 }}
+              source={{ uri: img }}
+            />
+          ) : null}
           <PhotoPicker onPick={getPhoto} />
           <View style={styles.buttons}>
             <AppButton
               title="Cancel"
               color="#0000ff"
-              onClick={() => navigation.navigate("Main")}
+              onClick={cancelHandler}
               style={styles.button}
             />
             <AppButton
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   title: {
-    fontFamily: "MarckScript",
+    fontFamily: "balsamiqSans_Italic",
     fontSize: 30,
     textAlign: "center",
   },

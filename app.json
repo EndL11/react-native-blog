@@ -1,28 +1,32 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "react-native-blog",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "name": "Personal Blog",
+    "slug": "react-native-personal-blog",
+    "description": "App for your personal notes, posts and other things which you want to store.",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/rn-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/rn-splash-cat.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#020203"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.endl.react-native-personal-blog",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.endl.react_native_personal_blog",
+      "versionCode": 1,
+      "permissions": ["CAMERA", "WRITE_EXTERNAL_STORAGE"]
     }
   }
 }
