@@ -26,7 +26,7 @@ export const AboutScreen = ({ navigation }) => {
         want to store.
       </Text>
       <Text style={styles.version}>
-        Version: <Text style={styles.versionBold}>1.0.0</Text>
+        Version: <Text style={styles.versionBold}>1.0.1</Text>
       </Text>
       <AppButton
         title="All posts"

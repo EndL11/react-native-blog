@@ -3,8 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 export const AppDateTitle = ({ style, date }) => {
   const createTimeText = () => {
-    const newDate = new Date(date)
-    newDate.setHours(newDate.getHours() + 3);
+    const newDate = new Date(date);
     const hours = newDate.getHours();
     const minutes = newDate.getMinutes();
     //  returning date
