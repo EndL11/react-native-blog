@@ -4,11 +4,8 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { AppButton } from "./AppButton";
 
-async function askForPermissions() {
-  const { status } = await Permissions.askAsync(
-    Permissions.CAMERA,
-    Permissions.CAMERA_ROLL
-  );
+async function askForPermissions(...types) {
+  const { status } = await Permissions.askAsync(...types);
   if (status !== "granted") {
     Alert.alert("Error", "App must have access");
     return false;
@@ -19,7 +16,7 @@ async function askForPermissions() {
 export const PhotoPicker = ({ onPick }) => {
 
   const createPhoto = async () => {
-    const hasPermission = await askForPermissions();
+    const hasPermission = await askForPermissions(Permissions.CAMERA);
 
     if (hasPermission === false) {
       return;
@@ -34,7 +31,7 @@ export const PhotoPicker = ({ onPick }) => {
   };
 
   const choosePhoto = async () => {
-    const hasPermission = await askForPermissions();
+    const hasPermission = await askForPermissions(Permissions.CAMERA_ROLL);
 
     if (hasPermission === false) {
       return;
